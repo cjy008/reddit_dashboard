@@ -1,5 +1,7 @@
 import praw
 import pandas as pd
+import dash_table
+
 from pprint import pprint
 
 from config import cid, csec, ua
@@ -65,3 +67,11 @@ df['unique words'] = df['post'].apply(lambda x: len(set(w for w in x.split())))
 
 #percent of unique words
 df['unique density'] = (df['unique words'] / df['words']).round(3)
+
+
+#use dash to make dashboard layout pwetty
+layout = dash_table.DataTable(
+    id='table',
+    columns=[{"name":i,"id": i} for i in df.columns],
+    data=df.to_dict('records')
+)
