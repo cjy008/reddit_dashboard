@@ -45,3 +45,23 @@ posts_df = pd.DataFrame(posts, columns=['title', 'score', 'comments', 'post',
 
 #return top 3 df rows
 posts_df.head(3)
+
+
+##gauge word density in each post
+#copy df
+df = posts_df.copy()
+
+#count words in post
+df['words']=df['post'].apply(lambda x: len(x.split()))
+
+#count characters in post
+df['chars'] = df['post'].apply(lambda x: len(x.replace(" ","")))
+
+#calculate word density
+df['word density'] = (df['words'] / (df['chars'] +1 )).round(3)
+
+#count unique words
+df['unique words'] = df['post'].apply(lambda x: len(set(w for w in x.split())))
+
+#percent of unique words
+df['unique density'] = (df['unique words'] / df['words']).round(3)
